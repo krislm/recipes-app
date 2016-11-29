@@ -1,0 +1,21 @@
+<ion-content class="card-background-page">
+<ion-searchbar (ionInput)="findRecipe($event)"></ion-searchbar>
+
+    <ion-list>
+        <ion-item *ngFor="let result of searchResults">
+            <ion-thumbnail item-left>
+                <img src="{{result.image}}" />
+            </ion-thumbnail>
+            <h2>{{result.name}}</h2>
+            <p>{{result.short_description}}</p>
+            <button clear item-right (click)=selectRecipe(result)>Mere</button>
+        </ion-item>
+    </ion-list>
+
+    <ion-card *ngFor="let recipe of recipes" class="recipe-cards" (click)=selectRecipe(recipe)>
+        <img src="{{recipe.image}}"/>
+        <div class="card-title">{{recipe.name}}</div>
+        <div class="card-subtitle">{{recipe.time || recipe.short_description}}</div>
+    </ion-card>
+
+</ion-content>

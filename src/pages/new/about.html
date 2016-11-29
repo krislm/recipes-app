@@ -1,0 +1,104 @@
+<ion-content>
+
+    <ion-list>
+
+        <ion-list-header>
+            Generelt
+        </ion-list-header>
+
+        <ion-item>
+            <ion-label floating>Titel</ion-label>
+            <ion-input [(ngModel)]="newRecipe.name" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Kort beskrivelse</ion-label>
+            <ion-textarea [(ngModel)]="newRecipe.short_description" type="text"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Ca. tid</ion-label>
+            <ion-input [(ngModel)]="newRecipe.time" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <p *ngIf="newImage == null">Tag et foto eller vælg et eksisterende</p>
+            <div class="flex">
+                <button class="camera-btn" ion-button icon-only *ngIf="newImage == null" (click)="addPicture(true)">
+                    <ion-icon name="md-camera"></ion-icon>
+                </button>
+                <button class="camera-btn" ion-button icon-only *ngIf="newImage == null" (click)="addPicture(false)">
+                    <ion-icon name="md-images"></ion-icon>
+                </button>
+            </div>
+            <div class="camera-image" *ngIf="newImage != null">
+                <ion-icon name="md-close-circle" (click)="newImage = null"></ion-icon>
+                <img src="{{newImage}}" />
+            </div>
+        </ion-item>
+
+        <ion-list-header>
+            Fremgangsmåde
+        </ion-list-header>
+
+        <ion-item-sliding *ngFor="let part of newRecipe.long_description; let i = index">
+            <ion-item>
+                {{i+1}}: {{part}}
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="removePart(i)">
+                    <ion-icon name="md-trash"></ion-icon>
+                    Slet
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+
+        <ion-item *ngIf="editingPart">
+            <ion-label floating>Beskrivelse: del {{newRecipe.long_description.length+1}}</ion-label>
+            <ion-textarea [(ngModel)]="newPart" type="text"></ion-textarea>
+            <button ion-button item-right (click)="addPart()">Gem</button>
+        </ion-item>
+
+        <button ion-button block color="light" (click)="addPart()" *ngIf="!editingPart">
+            Tilføj del
+        </button>
+
+        <ion-list-header>
+            Ingredienser
+        </ion-list-header>
+
+        <ion-item-sliding *ngFor="let ingredient of newRecipe.ingredients; let j = index">
+            <ion-item>
+                {{ingredient.name}}, {{ingredient.amount}} {{ingredient.measurement}}
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="removeIngredient(j)">
+                    <ion-icon name="md-trash"></ion-icon>
+                    Slet
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+
+        <ion-list *ngIf="editingIngredient">
+            <ion-item>
+                <ion-label floating>Ingrediens</ion-label>
+                <ion-input [(ngModel)]="newIngredient.name" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Mængde</ion-label>
+                <ion-input [(ngModel)]="newIngredient.amount" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Mål</ion-label>
+                <ion-input [(ngModel)]="newIngredient.measurement" type="text"></ion-input>
+            </ion-item>
+            <button ion-button block (click)="addIngredient()">Gem</button>
+        </ion-list>
+
+        <button ion-button block color="light" (click)="addIngredient()" *ngIf="!editingIngredient">Tilføj ingrediens</button>
+
+    </ion-list>
+
+    <button ion-button full color="light" (click)="saveRecipe()">Gem</button>
+
+</ion-content>

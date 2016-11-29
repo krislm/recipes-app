@@ -1,0 +1,50 @@
+<!--
+  Generated template for the Recipe page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{currentRecipe.name}}</ion-title>
+      <ion-buttons end>
+          <button ion-button icon-only (click)="edit()">
+              <ion-icon name="md-cog"></ion-icon>
+          </button>
+      </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-card>
+        <img src="{{currentRecipe.image}}"/>
+        <ion-card-content>
+            <ion-card-title>
+              {{currentRecipe.name}}
+              </ion-card-title>
+            <p>
+              {{currentRecipe.short_description}}
+            </p>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-list no-lines>
+        <ion-item *ngFor="let ingredient of currentRecipe.ingredients">
+            <ion-label>{{ingredient.name}} - {{ingredient.amount}} {{ingredient.measurement|| 'stk.'}}</ion-label>
+            <ion-checkbox color="dark"></ion-checkbox>
+        </ion-item>
+    </ion-list>
+
+    <ion-card *ngFor="let part of currentRecipe.long_description; let i = index">
+        <ion-card-header>
+            {{i+1}})
+        </ion-card-header>
+        <ion-card-content>
+            {{part.part}}
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>
